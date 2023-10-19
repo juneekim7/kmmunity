@@ -1,5 +1,15 @@
 {
+    "name": "kmmunity",
+    "description": "community for KSA",
     "scripts": {
         "dev": "nodemon --watch server --exec \"ts-node server/src/server.ts\""
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/juneekim7/kmmunity.git"
+    },
+    "devDependencies": {
+        "eslint": "^8.40.0",
+        "nodemon": "^2.0.22"
     }
 }
