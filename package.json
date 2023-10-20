@@ -2,13 +2,14 @@
     "name": "kmmunity",
     "description": "community for KSA",
     "scripts": {
-        "dev": "nodemon --watch server --exec \"ts-node server/src/server.ts\""
+        "dev": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/juneekim7/kmmunity.git"
     },
     "devDependencies": {
+        "concurrently": "^8.2.2",
         "eslint": "^8.40.0",
         "nodemon": "^2.0.22"
     }
