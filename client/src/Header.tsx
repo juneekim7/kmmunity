@@ -5,13 +5,14 @@ function Header() {
     const googleAuthLogin = useGoogleLogin({
         onSuccess: async (res) => {
             const accessToken = res.access_token
+            console.log(accessToken)
 
             fetch('http://localhost:3000/google_auth', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(accessToken),
+                body: JSON.stringify({ accessToken }),
                 mode: 'no-cors',
                 credentials: 'include'
             })
