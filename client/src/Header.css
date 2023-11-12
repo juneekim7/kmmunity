@@ -1,0 +1,39 @@
+#root {
+    max-width: 500px;
+    max-height: 900px;
+    height: 100vh;
+    margin: 0 auto;
+    padding: 0;
+    text-align: center;
+    display: flex;
+    background: linear-gradient(0deg, #303030, #202020);
+    justify-content: flex-start;
+}
+
+header {
+    width: 100vw;
+    height: 60px;
+    padding: 0 30px 0 30px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#logo {
+    font-size: 4vh;
+    font-weight: bold;
+    font-style: italic;
+    color: black;
+}
+
+/* #filter {
+    width: 4vh;
+    height: 100%;
+    background-image: url("./assets/filter.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-left: auto;
+    color: black;
+} */
