@@ -35,6 +35,12 @@ async function insertArticle(item: Article) {
     console.log('article inserted with id ' + result.insertedId)
 }
 
+const validToken = {}
+
+function isValidUser(user) {
+    return validToken[user.id] === user.accessToken
+}
+
 async function getUser(accessToken: string) {
     const { data } = await axios.get(
         `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${accessToken}`
@@ -49,14 +55,13 @@ async function getUser(accessToken: string) {
     } as User
 }
 
-async function isValidUser(user: User) {
-    return await getUser(user.accessToken) === user
-}
-
 app.post('/google_auth', async (req, res) => {
     try {
         const accessToken = req.body.accessToken
+        console.log(accessToken)
         const user = await getUser(accessToken)
+
+        validToken[user.id] = accessToken
 
         res.json({
             success: true,
@@ -73,27 +78,33 @@ app.post('/google_auth', async (req, res) => {
 
 app.post('/board', async (req, res) => {
     const user = req.body.user as User
-    if (! await isValidUser(user)) {
+    if (!isValidUser(user)) {
         res.status(401)
+        return
     }
 
     const articles = clientDB.db('data').collection<Article>('articles')
     const articleCursor = articles.find()
-    res.json(await articleCursor.toArray())
+    res.json({
+        success: true,
+        articles: await articleCursor.toArray()
+    })
 })
 
 app.post('/write', async (req, res) => {
     const user = req.body.user as User
-    if (! await isValidUser(user)) {
+    if (!isValidUser(user)) {
         res.status(401)
+        return
     }
 
 })
 
 app.post('/view', async (req, res) => {
     const user = req.body.user as User
-    if (! await isValidUser(user)) {
+    if (!isValidUser(user)) {
         res.status(401)
+        return
     }
 
     const pageNum = req.body.pageNum

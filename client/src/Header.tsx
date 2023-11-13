@@ -1,15 +1,9 @@
-import type { User } from '../../interface'
+import type { Property, User } from '../../interface'
 import { useGoogleLogin } from '@react-oauth/google'
 import './Header.css'
-import { useState } from 'react'
 
-function Header() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
-    const [user, setUser] = useState({
-        id: '00-000',
-        name: '문가온누리',
-        accessToken: ''
-    } as User)
+function Header(props: Property) {
+    const { user, setUser, isLoggedIn, setIsLoggedIn } = props
 
     const googleAuthLogin = useGoogleLogin({
         onSuccess: async (res) => {

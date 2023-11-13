@@ -25,4 +25,11 @@ interface Reply {
     content: string
 }
 
-export { User, Article, Comment, Reply }
+interface Property {
+    user: User,
+    setUser: Function,
+    isLoggedIn: boolean,
+    setIsLoggedIn: Function
+}
+
+export { User, Article, Comment, Reply, Property }
