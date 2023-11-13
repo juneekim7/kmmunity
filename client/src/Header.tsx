@@ -1,27 +1,45 @@
-import { useGoogleLogin } from "@react-oauth/google"
+import type { User } from '../../interface'
+import { useGoogleLogin } from '@react-oauth/google'
 import './Header.css'
+import { useState } from 'react'
 
 function Header() {
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [user, setUser] = useState({
+        id: '00-000',
+        name: '문가온누리',
+        accessToken: ''
+    } as User)
+
     const googleAuthLogin = useGoogleLogin({
         onSuccess: async (res) => {
             const accessToken = res.access_token
             console.log(accessToken)
 
-            fetch('http://localhost:80/google_auth', {
+            const response = await fetch('http://localhost:80/google_auth', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    "accessToken": accessToken
+                    accessToken
                 })
             })
-            console.log(res)
+
+            const data = await response.json()
+            if (data.success) {
+                setUser(data.user as User)
+                setIsLoggedIn(true)
+            }
+            else {
+                console.log(data.error)
+                alert('Login Fail\n' + data.error)
+            }
         }
     })
 
     return (
         <header>
             <div id="logo">kμ</div>
-            <div id="login" onClick={() => googleAuthLogin()}>login</div>
+            <div id="login" onClick={() => isLoggedIn || googleAuthLogin()}>{ isLoggedIn ? user.name : 'login' }</div>
         </header>
     )
 }

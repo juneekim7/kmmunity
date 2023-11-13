@@ -1,7 +1,7 @@
 import Header from "./Header"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Board from "./Board"
-import Article from "./Article"
+import View from "./View"
 
 function App() {
     return (
@@ -10,7 +10,7 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Board />} />
-                    <Route path="/article" element={<Article />} />
+                    <Route path="/view" element={<View />} />
                 </Routes>
             </BrowserRouter>
         </>
