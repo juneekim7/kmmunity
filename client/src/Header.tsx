@@ -7,14 +7,12 @@ function Header() {
             const accessToken = res.access_token
             console.log(accessToken)
 
-            fetch('http://localhost:3000/google_auth', {
+            fetch('http://localhost:80/google_auth', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ accessToken }),
-                mode: 'no-cors',
-                credentials: 'include'
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    "accessToken": accessToken
+                })
             })
             console.log(res)
         }
