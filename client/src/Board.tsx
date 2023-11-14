@@ -7,7 +7,7 @@ function Board(props: Property) {
     const navigate = useNavigate()
     const { user } = props
     const [articles, setArticles] = useState([] as Article[])
-    let hasLoaded = false
+    const [hasLoaded, setHasLoaded] = useState(false)
 
     async function getArticles() {
         const response = await fetch('http://localhost:80/board', {
@@ -20,7 +20,7 @@ function Board(props: Property) {
         const data = await response.json()
         if (data.success) {
             setArticles(data.articles)
-            hasLoaded = true
+            setHasLoaded(true)
         }
         else {
             console.log('failed')

@@ -7,3 +7,9 @@
     font-size: 30px;
     color: white;
 }
+
+.comment {
+    width: 100vw;
+    max-width: inherit;
+    height: 30px;
+}

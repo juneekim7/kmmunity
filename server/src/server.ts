@@ -1,4 +1,4 @@
-import type { Article, User } from '../../interface'
+import type { Article, Comment, User } from '../../interface'
 import express from 'express'
 import ViteExpress from 'vite-express'
 import bodyParser from 'body-parser'
@@ -28,22 +28,6 @@ const clientDB = new MongoClient(`mongodb+srv://${process.env.MONGODB_ID}:${proc
         deprecationErrors: true
     }
 })
-
-/** return article's id (I know this is bad code but... sorry T.T) */
-async function insertArticle(item: Article) {
-    const articles = clientDB.db('data').collection<Article>('articles')
-    const result = await articles.insertOne(item)
-    console.log(`article ${result.insertedId} inserted by ${item.writer.name}`)
-    return result.insertedId.toString()
-}
-
-async function viewArticle(articleId: string) {
-    const articles = clientDB.db('data').collection<Article>('articles')
-    const article = articles.findOne({
-        _id: new ObjectId(articleId)
-    })
-    return await article as Article
-}
 
 const validToken = {}
 
@@ -104,6 +88,14 @@ app.post('/board', async (req, res) => {
     })
 })
 
+/** return article's id (I know this is bad code but... sorry T.T) */
+async function insertArticle(item: Article) {
+    const articles = clientDB.db('data').collection<Article>('articles')
+    const result = await articles.insertOne(item)
+    console.log(`article ${result.insertedId} inserted by ${item.writer.name}`)
+    return result.insertedId.toString()
+}
+
 app.post('/write', async (req, res) => {
     const user = req.body.user as User
     const article = req.body.article as Article
@@ -122,6 +114,14 @@ app.post('/write', async (req, res) => {
     })
 })
 
+async function viewArticle(articleId: string) {
+    const articles = clientDB.db('data').collection<Article>('articles')
+    const article = articles.findOne({
+        _id: new ObjectId(articleId)
+    })
+    return await article as Article
+}
+
 app.post('/view', async (req, res) => {
     const user = req.body.user as User
     if (!isValidUser(user)) {
@@ -131,6 +131,36 @@ app.post('/view', async (req, res) => {
 
     const articleId = req.body.articleId
     const article = await viewArticle(articleId)
+    res.json({
+        success: true,
+        article
+    })
+})
+
+async function addComment(articleId: string, comment: Comment) {
+    const articles = clientDB.db('data').collection<Article>('articles')
+    const article = articles.findOneAndUpdate({
+        _id: new ObjectId(articleId)
+    }, {
+        $push: {
+            comments: comment
+        }
+    })
+    return await article as Article
+}
+
+app.post('/comment', async (req, res) => {
+    const user = req.body.user as User
+    if (!isValidUser(user)) {
+        res.status(401)
+        return
+    }
+
+    const articleId: string = req.body.articleId
+    const comment: Comment = req.body.comment
+    comment.writer.accessToken = ''
+    comment.replies = []
+    const article = await addComment(articleId, comment)
     res.json({
         success: true,
         article
