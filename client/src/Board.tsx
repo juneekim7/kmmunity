@@ -1,11 +1,13 @@
 import { useState } from "react"
 import { Article, Property } from "../../interface"
 import './Board.css'
+import { Link, useNavigate } from "react-router-dom"
 
 function Board(props: Property) {
+    const navigate = useNavigate()
     const { user } = props
     const [articles, setArticles] = useState([] as Article[])
-    const [hasLoaded, setHasLoaded] = useState(false)
+    let hasLoaded = false
 
     async function getArticles() {
         const response = await fetch('http://localhost:80/board', {
@@ -18,7 +20,7 @@ function Board(props: Property) {
         const data = await response.json()
         if (data.success) {
             setArticles(data.articles)
-            setHasLoaded(true)
+            hasLoaded = true
         }
         else {
             console.log('failed')
@@ -28,10 +30,17 @@ function Board(props: Property) {
     return (
         <div id="board">
             {
-                articles.map(article => (
-                    <div className="article">{article.title}</div>
+                articles.reverse().map(article => (
+                    <div className="article" onClick={() => navigate('/view', {
+                        state: {
+                            articleId: article.id
+                        }
+                    })}>{article.title}</div>
                 ))
             }
+            <button id="write">
+                <Link to={'/write'}>write</Link>
+            </button>
         </div>
     )
 }

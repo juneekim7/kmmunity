@@ -5,23 +5,21 @@ interface User {
 }
 
 interface Article {
+    id: string,
     title: string,
     writer: User,
-    time: string,
     content: string,
     comments: Comment[]
 }
 
 interface Comment {
     writer: User,
-    time: string,
     content: string,
     replies: Reply[]
 }
 
 interface Reply {
     writer: User,
-    time: string,
     content: string
 }
 
@@ -29,7 +27,10 @@ interface Property {
     user: User,
     setUser: Function,
     isLoggedIn: boolean,
-    setIsLoggedIn: Function
+    setIsLoggedIn: Function,
+    match?: {
+        params: any
+    }
 }
 
 export { User, Article, Comment, Reply, Property }

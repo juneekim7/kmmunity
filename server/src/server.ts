@@ -4,7 +4,7 @@ import ViteExpress from 'vite-express'
 import bodyParser from 'body-parser'
 import axios from 'axios'
 import dotenv from 'dotenv'
-import { MongoClient, ServerApiVersion } from 'mongodb'
+import { MongoClient, ObjectId, ServerApiVersion } from 'mongodb'
 
 const app = express()
 ViteExpress.config({
@@ -29,10 +29,20 @@ const clientDB = new MongoClient(`mongodb+srv://${process.env.MONGODB_ID}:${proc
     }
 })
 
+/** return article's id (I know this is bad code but... sorry T.T) */
 async function insertArticle(item: Article) {
     const articles = clientDB.db('data').collection<Article>('articles')
     const result = await articles.insertOne(item)
-    console.log('article inserted with id ' + result.insertedId)
+    console.log(`article ${result.insertedId} inserted by ${item.writer.name}`)
+    return result.insertedId.toString()
+}
+
+async function viewArticle(articleId: string) {
+    const articles = clientDB.db('data').collection<Article>('articles')
+    const article = articles.findOne({
+        _id: new ObjectId(articleId)
+    })
+    return await article as Article
 }
 
 const validToken = {}
@@ -87,17 +97,29 @@ app.post('/board', async (req, res) => {
     const articleCursor = articles.find()
     res.json({
         success: true,
-        articles: await articleCursor.toArray()
+        articles: (await articleCursor.toArray()).map(item => {
+            item.id = item._id.toString()
+            return item
+        })
     })
 })
 
 app.post('/write', async (req, res) => {
     const user = req.body.user as User
-    if (!isValidUser(user)) {
+    const article = req.body.article as Article
+    if (!isValidUser(user) || !article) {
         res.status(401)
         return
     }
 
+    article.writer.accessToken = ''
+    article.comments = []
+    const articleId = await insertArticle(article)
+    console.log(articleId)
+    res.json({
+        success: true,
+        articleId
+    })
 })
 
 app.post('/view', async (req, res) => {
@@ -107,6 +129,10 @@ app.post('/view', async (req, res) => {
         return
     }
 
-    const pageNum = req.body.pageNum
-    res.json([])
+    const articleId = req.body.articleId
+    const article = await viewArticle(articleId)
+    res.json({
+        success: true,
+        article
+    })
 })
