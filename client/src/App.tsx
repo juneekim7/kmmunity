@@ -16,9 +16,9 @@ function App() {
 
     return (
         <>
-            <Header user={user} setUser={setUser}
-            isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
             <BrowserRouter>
+                <Header user={user} setUser={setUser}
+                isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
                 <Routes>
                     <Route path="/" element={
                         <Board user={user} setUser={setUser}

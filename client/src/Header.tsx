@@ -1,9 +1,11 @@
 import type { Property, User } from '../../interface'
 import { useGoogleLogin } from '@react-oauth/google'
 import './Header.css'
+import { useNavigate } from 'react-router-dom'
 
 function Header(props: Property) {
     const { user, setUser, isLoggedIn, setIsLoggedIn } = props
+    const navigate = useNavigate()
 
     const googleAuthLogin = useGoogleLogin({
         onSuccess: async (res) => {
@@ -32,7 +34,7 @@ function Header(props: Property) {
 
     return (
         <header>
-            <div id="logo">kμ</div>
+            <div id="logo" onClick={() => navigate('/')}>kμ</div>
             <div id="login" onClick={() => isLoggedIn || googleAuthLogin()}>{ isLoggedIn ? user.name : 'login' }</div>
         </header>
     )
