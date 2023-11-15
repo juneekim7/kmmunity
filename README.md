@@ -1,10 +1,9 @@
 # kmmunity
 community for KSA
 
-# how to run server
+# how to run
 
 ```console
 npm run dev
 ```
-
-# how to run client
+at root directory
