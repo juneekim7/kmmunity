@@ -10,7 +10,7 @@ function Board(props: Property) {
     const [hasLoaded, setHasLoaded] = useState(false)
 
     async function getArticles() {
-        const response = await fetch('http://localhost:80/board', {
+        const response = await fetch(`${location.origin}/board`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -20,28 +20,33 @@ function Board(props: Property) {
         const data = await response.json()
         if (data.success) {
             setArticles(data.articles)
+            console.log(data.articles)
             setHasLoaded(true)
         }
-        else {
-            console.log('failed')
-        }
+        else console.log('failed')
     }
     if (!hasLoaded) getArticles()
     return (
-        <div id="board">
-            {
-                articles.reverse().map(article => (
-                    <div className="article" onClick={() => navigate('/view', {
-                        state: {
-                            articleId: article.id
-                        }
-                    })}>{article.title}</div>
-                ))
-            }
-            <button id="write">
-                <Link to={'/write'}>write</Link>
-            </button>
-        </div>
+        <>
+            <div>
+                글 목록
+            </div>
+            <div id="board">
+                {
+                    articles.reverse().map(article => (
+                        <div className="article" onClick={() => navigate('/view', {
+                            state: {
+                                articleId: article.id
+                            }
+                        })}>{article.title}</div>
+                    ))
+                }
+                <button id="write">
+                    <Link to={'/write'}>write</Link>
+                </button>
+            </div>
+        </>
+        
     )
 }
 

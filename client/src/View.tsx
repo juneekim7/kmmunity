@@ -15,7 +15,7 @@ function View(props: Property) {
     const [hasLoaded, setHasLoaded] = useState(false)
 
     async function reqView() {
-        const response = await fetch('http://localhost:80/view', {
+        const response = await fetch(`${location.origin}/view`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
