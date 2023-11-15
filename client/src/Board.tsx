@@ -1,16 +1,17 @@
 import { useState } from "react"
-import { Article, Property } from "../../interface"
+import { Article as ArticleType, Property } from "../../interface"
 import './Board.css'
 import { Link, useNavigate } from "react-router-dom"
+import Article from "./components/Article"
 
 function Board(props: Property) {
     const navigate = useNavigate()
     const { user } = props
-    const [articles, setArticles] = useState([] as Article[])
+    const [articles, setArticles] = useState([] as ArticleType[])
     const [hasLoaded, setHasLoaded] = useState(false)
 
     async function getArticles() {
-        const response = await fetch(`${location.origin}/board`, {
+        const response = await fetch(`${window.location.origin}/board`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -27,25 +28,21 @@ function Board(props: Property) {
     }
     if (!hasLoaded) getArticles()
     return (
-        <>
-            <div>
+        <div id="board-container">
+            <div id="board-header">
                 글 목록
             </div>
             <div id="board">
                 {
                     articles.reverse().map(article => (
-                        <div className="article" onClick={() => navigate('/view', {
-                            state: {
-                                articleId: article.id
-                            }
-                        })}>{article.title}</div>
+                        <Article title={article.title} onClick={() => navigate('/view', {state: {articleId: article.id}})} />
                     ))
                 }
                 <button id="write">
                     <Link to={'/write'}>write</Link>
                 </button>
             </div>
-        </>
+        </div>
         
     )
 }

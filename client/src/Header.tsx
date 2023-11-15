@@ -12,7 +12,7 @@ function Header(props: Property) {
             const accessToken = res.access_token
             console.log(accessToken)
 
-            const response = await fetch('http://localhost:80/google_auth', {
+            const response = await fetch(`${window.location.origin}/google_auth`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -35,7 +35,7 @@ function Header(props: Property) {
     return (
         <header>
             <div id="logo" onClick={() => navigate('/')}>kμ</div>
-            <div id="login" onClick={() => isLoggedIn || googleAuthLogin()}>{ isLoggedIn ? user.name : 'login' }</div>
+            <div id="login" onClick={() => isLoggedIn || googleAuthLogin()}>{ isLoggedIn ? user.name : '로그인' }</div>
         </header>
     )
 }

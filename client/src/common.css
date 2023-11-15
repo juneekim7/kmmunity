@@ -1,11 +1,6 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 :root {
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    line-height: 1.5;
-    font-weight: 400;
-
-    color-scheme: light dark;
-    color: rgba(255, 255, 255, 0.87);
-    background-color: black;
+    font-family: "Noto Sans KR", sans-serif;
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;
@@ -19,14 +14,11 @@
     height: 100vh;
     max-width: 500px;
     max-height: 900px;
-    height: 100vh;
     margin: 0 auto;
     padding: 0;
-    text-align: center;
     display: flex;
-    background: linear-gradient(0deg, #303030, #202020);
-    justify-content: flex-start;
     flex-direction: column;
+    overflow-y: hidden;
 }
 
 a {
@@ -48,8 +40,8 @@ body {
 }
 
 h1 {
+    
     font-size: 3.2em;
-    line-height: 1.1;
 }
 
 button {
@@ -87,3 +79,27 @@ button:focus-visible {
         background-color: #f9f9f9;
     }
 }
+
+#content-container {
+    overflow-y: scroll;
+    flex-grow: 1;   
+    flex-shrink: 0;
+}
+
+::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: gray;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}   
