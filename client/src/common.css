@@ -27,6 +27,7 @@
     background: linear-gradient(0deg, #303030, #202020);
     justify-content: flex-start;
     flex-direction: column;
+    overflow-y:scroll;
 }
 
 a {

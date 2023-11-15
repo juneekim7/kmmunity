@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom"
 import { Article, Comment, Property } from "../../interface"
 import { useState } from "react"
+import './View.css'
 
 function View(props: Property) {
     const { user } = props
@@ -54,7 +55,7 @@ function View(props: Property) {
             })
         })
         const data = await response.json()
-        if (data.success) {
+        if (data.success&&newComment.content!="") {
             setComments([
                 ...comments,
                 newComment
@@ -70,14 +71,16 @@ function View(props: Property) {
         <>
             <div id="title">{title}</div>
             <div id="content">{content}</div>
-            <input id="write-comment" value={commentContent} onChange={e => setCommentContent(e.target.value)}/>
-            <button id="post-comment" onClick={reqComment}>comment</button>
             <div id="comment-container">
                 {
                     comments.map(comment => (
                         <div className="comment">{comment.writer.name}: {comment.content}</div>
                     ))
                 }
+            </div>
+            <div id="comment-input-container">
+                <input id="write-comment" value={commentContent} onChange={e => setCommentContent(e.target.value)}/>
+                <button id="post-comment" onClick={reqComment}>comment</button>
             </div>
         </>
     )

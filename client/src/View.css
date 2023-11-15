@@ -8,8 +8,28 @@
     color: white;
 }
 
+#comment-container {
+    display:flex;
+    flex-direction: column;
+}
+
+#comment-input-container {
+    display: flex;
+}
+
+ul{
+    overflow-y:scroll;
+    margin: 0;
+    padding: 0;
+
+}
+
 .comment {
-    width: 100vw;
-    max-width: inherit;
-    height: 30px;
+    width: 100%;
+    text-align: left;
+    max-width: 100%;
+    min-height: 30px;
+    overflow: hidden;
+    height:auto;
+    padding: 0 10px 0 10px;
 }
