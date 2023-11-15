@@ -10,7 +10,7 @@ function Write(props: Property) {
     const navigate = useNavigate()
 
     async function reqWrite() {
-        const response = await fetch('http://localhost:80/write', {
+        const response = await fetch(`${location.origin}/write`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
