@@ -17,6 +17,10 @@
     overflow-y: auto;
 }
 
+.article{
+    cursor: pointer;
+}
+
 #write {
     position: absolute;
     bottom: 10px;

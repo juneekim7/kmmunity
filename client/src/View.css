@@ -1,11 +1,11 @@
 #title {
     font-size: 60px;
-    color: white;
+    color: black;
 }
 
 #content {
     font-size: 30px;
-    color: white;
+    color: black;
 }
 
 #comment-container {
@@ -28,8 +28,8 @@ ul{
     width: 100%;
     text-align: left;
     max-width: 100%;
-    min-height: 30px;
-    overflow: hidden;
-    height:auto;
     padding: 0 10px 0 10px;
+    display: flex;
+    flex-wrap: wrap;
+    word-wrap: break-word;
 }
