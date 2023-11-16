@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom"
-import { Article, Comment, Property } from "../../interface"
+import { Article, Comment, Property, Reply } from "../../interface"
 import { useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowUp, faCommentDots } from "@fortawesome/free-solid-svg-icons"
@@ -84,7 +84,7 @@ function View(props: Property) {
             })
         })
         const data = await response.json()
-        if (data.success&&newComment.content!="") {
+        if (data.success) {
             setArticle(article => ({
                 ...article,
                 comments: [ ...article.comments, newComment ]
@@ -94,6 +94,40 @@ function View(props: Property) {
             console.log('failed to comment')
         }
         setCommentContent('')
+    }
+
+    const [replyCommentIndex, setReplyCommentIndex] = useState(-1)
+    const [replyContent, setReplyContent] = useState('')
+
+    async function reqReply() {
+        const reply: Reply = {
+            writer: user,
+            content: replyContent
+        }
+        const response = await fetch(`${window.location.origin}/reply`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                user,
+                articleId,
+                commentIndex: replyCommentIndex,
+                reply
+            })
+        })
+        const data = await response.json()
+        if (data.success) {
+            const newComments = article.comments
+            newComments[replyCommentIndex].replies.push(reply)
+            setArticle(article => ({
+                ...article,
+                comments: newComments
+            }))
+        }
+        else {
+            console.log('failed to comment')
+        }
+        setReplyCommentIndex(-1)
+        setReplyContent('')
     }
 
     return (
@@ -116,10 +150,32 @@ function View(props: Property) {
             </div>
             <div id="comment-container">
                 {
-                    article.comments.map(comment => (
-                        <div className="comment">{comment.writer.name}: {comment.content}</div>
-                    ))
+                    article.comments.map((comment: Comment, commentIndex) => {
+                        return (
+                            <>
+                            <div className="comment" onClick={() => setReplyCommentIndex(commentIndex)}>
+                                {comment.writer.name}: {comment.content}
+                            </div>
+                            {
+                                comment.replies.map(reply => (
+                                    <div className="reply" onClick={() => setReplyCommentIndex(commentIndex)}>
+                                        ㄴ{reply.writer.name}: {reply.content}
+                                    </div>
+                                ))
+                            }
+                            </>
+                        )
+                    })
                 }
+                <div id="reply-form" onBlur={(e) => {
+                    if (e.relatedTarget !== null) return
+                    setReplyCommentIndex(-1)
+                    setReplyContent('')
+                }} style={{display: (replyCommentIndex === -1 ? "none" : "block")}}>
+                    <textarea className="write-reply" value={replyContent}
+                    onChange={e => setReplyContent(e.target.value)}></textarea>
+                    <button id="post-reply" onClick={() => reqReply()}>답글 달기</button>
+                </div>
             </div>
         </>
     )
