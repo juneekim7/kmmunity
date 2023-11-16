@@ -10,7 +10,7 @@ function Header(props: Property) {
     const googleAuthLogin = useGoogleLogin({
         onSuccess: async (res) => {
             const accessToken = res.access_token
-            console.log(accessToken)
+            localStorage['accessToken'] = accessToken
 
             const response = await fetch(`${window.location.origin}/google_auth`, {
                 method: 'POST',
