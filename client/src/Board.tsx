@@ -20,8 +20,7 @@ function Board(props: Property) {
         })
         const data = await response.json()
         if (data.success) {
-            setArticles(data.articles)
-            console.log(data.articles)
+            setArticles(data.articles.reverse())
             setHasLoaded(true)
         }
         else console.log('failed')
@@ -35,7 +34,7 @@ function Board(props: Property) {
                 </div>
                 <div id="board">
                     {
-                        articles.reverse().map(article => (
+                        articles.map(article => (
                             <Article title={article.title} onClick={() => navigate('/view', {state: {articleId: article.id}})} />
                         ))
                     }
