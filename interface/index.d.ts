@@ -9,6 +9,7 @@ interface Article {
     title: string,
     writer: User,
     content: string,
+    likes: string[],
     comments: Comment[]
 }
 
