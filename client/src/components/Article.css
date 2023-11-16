@@ -1,0 +1,7 @@
+.article {
+    border-bottom: 1px solid #dddfe0;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

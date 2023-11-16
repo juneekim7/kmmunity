@@ -19,20 +19,22 @@ function App() {
             <BrowserRouter>
                 <Header user={user} setUser={setUser}
                 isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
-                <Routes>
-                    <Route path="/" element={
-                        <Board user={user} setUser={setUser}
-                        isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-                    } />
-                    <Route path="/write" element={
-                        <Write user={user} setUser={setUser}
-                        isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-                    } />
-                    <Route path="/view" element={
-                        <View user={user} setUser={setUser}
-                        isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-                    } />
-                </Routes>
+                <div id="content-container">
+                    <Routes>
+                        <Route path="/" element={
+                            <Board user={user} setUser={setUser}
+                            isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+                        } />
+                        <Route path="/write" element={
+                            <Write user={user} setUser={setUser}
+                            isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+                        } />
+                        <Route path="/view" element={
+                            <View user={user} setUser={setUser}
+                            isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+                        } />
+                    </Routes>
+                </div>
             </BrowserRouter>
         </>
     )

@@ -16,7 +16,7 @@ ViteExpress.config({
     }
 })
 ViteExpress.listen(app, 80, () => {
-    console.log('server start')
+    console.log('The server has started!')
 })
 app.use(bodyParser.json())
 
@@ -40,7 +40,7 @@ async function getUser(accessToken: string) {
         `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${accessToken}`
     )
     if (data.hd !== 'ksa.hs.kr') {
-        throw new Error('Only KSA students are allowed to login')
+        throw new Error('Only KSA students are allowed to login.')
     }
     return {
         id: data.family_name,

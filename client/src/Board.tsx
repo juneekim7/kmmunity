@@ -1,16 +1,17 @@
 import { useState } from "react"
-import { Article, Property } from "../../interface"
+import { Article as ArticleType, Property } from "../../interface"
 import './Board.css'
 import { Link, useNavigate } from "react-router-dom"
+import Article from "./components/Article"
 
 function Board(props: Property) {
     const navigate = useNavigate()
     const { user } = props
-    const [articles, setArticles] = useState([] as Article[])
+    const [articles, setArticles] = useState([] as ArticleType[])
     const [hasLoaded, setHasLoaded] = useState(false)
 
     async function getArticles() {
-        const response = await fetch('http://localhost:80/board', {
+        const response = await fetch(`${window.location.origin}/board`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -19,29 +20,30 @@ function Board(props: Property) {
         })
         const data = await response.json()
         if (data.success) {
-            setArticles(data.articles)
+            setArticles(data.articles.reverse())
             setHasLoaded(true)
         }
-        else {
-            console.log('failed')
-        }
+        else console.log('failed')
     }
     if (!hasLoaded) getArticles()
     return (
-        <div id="board">
-            {
-                articles.reverse().map(article => (
-                    <div className="article" onClick={() => navigate('/view', {
-                        state: {
-                            articleId: article.id
-                        }
-                    })}>{article.title}</div>
-                ))
-            }
+        <>
+            <div id="board-container">
+                <div id="board-header">
+                    글 목록
+                </div>
+                <div id="board">
+                    {
+                        articles.map(article => (
+                            <Article title={article.title} onClick={() => navigate('/view', {state: {articleId: article.id}})} />
+                        ))
+                    }
+                </div>
+            </div>
             <button id="write">
                 <Link to={'/write'}>write</Link>
             </button>
-        </div>
+        </> 
     )
 }
 
