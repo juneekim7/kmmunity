@@ -28,22 +28,23 @@ function Board(props: Property) {
     }
     if (!hasLoaded) getArticles()
     return (
-        <div id="board-container">
-            <div id="board-header">
-                글 목록
+        <>
+            <div id="board-container">
+                <div id="board-header">
+                    글 목록
+                </div>
+                <div id="board">
+                    {
+                        articles.reverse().map(article => (
+                            <Article title={article.title} onClick={() => navigate('/view', {state: {articleId: article.id}})} />
+                        ))
+                    }
+                </div>
             </div>
-            <div id="board">
-                {
-                    articles.reverse().map(article => (
-                        <Article title={article.title} onClick={() => navigate('/view', {state: {articleId: article.id}})} />
-                    ))
-                }
-                <button id="write">
-                    <Link to={'/write'}>write</Link>
-                </button>
-            </div>
-        </div>
-        
+            <button id="write">
+                <Link to={'/write'}>write</Link>
+            </button>
+        </> 
     )
 }
 

@@ -7,7 +7,7 @@ interface ArticleProps {
 
 const Article: React.FC<ArticleProps> = (props) => {
     return (
-        <div className="article">
+        <div className="article" onClick={props.onClick}>
             {props.title}   
         </div>
     )
