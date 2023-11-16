@@ -1,8 +1,10 @@
 import { useState } from "react"
 import { Article as ArticleType, Property } from "../../interface"
-import './Board.css'
 import { Link, useNavigate } from "react-router-dom"
 import Article from "./components/Article"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons"
+import './Board.css'
 
 function Board(props: Property) {
     const navigate = useNavigate()
@@ -41,7 +43,9 @@ function Board(props: Property) {
                 </div>
             </div>
             <button id="write">
-                <Link to={'/write'}>write</Link>
+                <Link to={'/write'}>
+                    <FontAwesomeIcon icon={faPenToSquare} size="lg" />
+                </Link>
             </button>
         </> 
     )

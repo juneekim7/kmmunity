@@ -7,6 +7,7 @@
 
 #content {
     padding: 10px;
+    border-bottom: 1px solid #dddfe0;
 }
 
 #comment-container {
@@ -16,9 +17,11 @@
 
 #comment-input-container {
     display: flex;
+    gap: 20px;
+    align-items: center;
 }
 
-ul{
+ul {
     overflow-y:scroll;
     margin: 0;
     padding: 0;
@@ -28,10 +31,32 @@ ul{
 .comment {
     text-align: left;
     min-height: 30px;
-    padding: 0 10px;
+    padding: 10px;
     border-bottom: 1px solid #dddfe0;
-    word-break: keep-all;
-    word-wrap: break-word;
+    word-break: break-all;
     display: flex;
     align-items: center;
+}
+
+#write-comment {
+    flex-grow: 1;
+    height: 60px;
+}
+
+#post-comment {
+    width: 50px;
+    height: 50px;
+}
+
+#comment-title {
+    display: flex;
+    gap: 10px;
+    height: 30px;
+    align-items: center;
+    padding: 5px 10px;
+}
+
+#comment-input-wrapper {
+    padding: 0 5px 10px;
+    border-bottom: 1px solid #dddfe0;
 }

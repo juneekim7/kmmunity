@@ -1,6 +1,8 @@
 import { useLocation } from "react-router-dom"
 import { Article, Comment, Property } from "../../interface"
 import { useState } from "react"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faArrowUp, faCommentDots } from "@fortawesome/free-solid-svg-icons"
 import './View.css'
 
 function View(props: Property) {
@@ -45,7 +47,7 @@ function View(props: Property) {
             content: commentContent,
             replies: []
         }
-        const response = await fetch('http://localhost:80/comment', {
+        const response = await fetch(`${window.location.origin}/comment`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -71,16 +73,24 @@ function View(props: Property) {
         <>
             <div id="title">{title}</div>
             <div id="content">{content}</div>
+            <div id="comment-input-wrapper">
+                <div id="comment-title">
+                    <FontAwesomeIcon icon={faCommentDots} />
+                    댓글 쓰기
+                </div>
+                <div id="comment-input-container">
+                    <textarea id="write-comment" value={commentContent} onChange={e => setCommentContent(e.target.value)}/>
+                    <button id="post-comment" onClick={reqComment}>
+                        <FontAwesomeIcon icon={faArrowUp} size="lg" />
+                    </button>
+                </div>
+            </div>
             <div id="comment-container">
                 {
                     comments.map(comment => (
                         <div className="comment">{comment.writer.name}: {comment.content}</div>
                     ))
                 }
-            </div>
-            <div id="comment-input-container">
-                <input id="write-comment" value={commentContent} onChange={e => setCommentContent(e.target.value)}/>
-                <button id="post-comment" onClick={reqComment}>comment</button>
             </div>
         </>
     )
