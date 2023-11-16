@@ -253,10 +253,10 @@ app.post('/reply', async (req, res) => {
     }
 
     const articleId: string = req.body.articleId
-    const commentId = req.body.comment.id
+    const commentIndex = req.body.commentIndex
     const reply: Reply = req.body.reply
     reply.writer.accessToken = ''
-    const article = await addReply(articleId, commentId, reply)
+    const article = await addReply(articleId, commentIndex, reply)
     if (article) {
         res.json({
             success: true,
