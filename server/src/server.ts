@@ -200,14 +200,26 @@ app.post('/comment', async (req, res) => {
 
 async function addLike(articleId: string, userId: string) {
     const articles = clientDB.db('data').collection<Article>('articles')
-    const article = articles.findOneAndUpdate({
+    const article = await articles.findOne({
+        _id: new ObjectId(articleId)
+    })
+    if (article.likes.includes(userId)) {
+        return {
+            success: false,
+            error: 'already liked'
+        }
+    }
+    const updatedArticle = await articles.findOneAndUpdate({
         _id: new ObjectId(articleId)
     }, {
         $push: {
             likes: userId
         }
     })
-    return await article as Article
+    return {
+        success: true,
+        article: updatedArticle as Article
+    }
 }
 
 app.post('/like', async (req, res) => {
@@ -219,18 +231,8 @@ app.post('/like', async (req, res) => {
 
     const articleId: string = req.body.articleId
     const userId = user.id
-    const article = await addLike(articleId, userId)
-    if (article) {
-        res.json({
-            success: true,
-            article
-        })
-    }
-    else {
-        res.json({
-            success: false
-        })
-    }
+    const result = await addLike(articleId, userId)
+    res.json(result)
 })
 
 async function addReply(articleId: string, commentIndex: Number, reply: Reply) {

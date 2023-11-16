@@ -34,9 +34,6 @@ function App() {
                 setUser(data.user as User)
                 setIsLoggedIn(true)
             }
-            else {
-                alert('Login')
-            }
         }}>
             <BrowserRouter>
                 <Header user={user} setUser={setUser}
