@@ -20,6 +20,7 @@ function Write(props: Property) {
                     title,
                     writer: user,
                     content,
+                    likes: [],
                     comments: []
                 } as Article
             })

@@ -1,4 +1,4 @@
-import type { Article, Comment, User } from '../../interface'
+import type { Article, Comment, Reply, User } from '../../interface'
 import express from 'express'
 import ViteExpress from 'vite-express'
 import bodyParser from 'body-parser'
@@ -79,13 +79,23 @@ app.post('/board', async (req, res) => {
 
     const articles = clientDB.db('data').collection<Article>('articles')
     const articleCursor = articles.find()
-    res.json({
-        success: true,
-        articles: (await articleCursor.toArray()).map(item => {
-            item.id = item._id.toString()
-            return item
+    if (articleCursor) {
+        res.json({
+            success: true,
+            articles: (await articleCursor.toArray()).map(article => {
+                article.writer.id = ''
+                article.likes = article.likes.map((userId) => (userId == user.id ? userId : null))
+                article.id = article._id.toString()
+                return article
+            })
         })
-    })
+    }
+    else {
+        res.json({
+            success: false,
+            articles: []
+        })
+    }
 })
 
 /** return article's id (I know this is bad code but... sorry T.T) */
@@ -105,13 +115,20 @@ app.post('/write', async (req, res) => {
     }
 
     article.writer.accessToken = ''
+    article.likes = []
     article.comments = []
     const articleId = await insertArticle(article)
-    console.log(articleId)
-    res.json({
-        success: true,
-        articleId
-    })
+    if (articleId) {
+        res.json({
+            success: true,
+            articleId
+        })
+    }
+    else {
+        res.json({
+            success: false
+        })
+    }
 })
 
 async function viewArticle(articleId: string) {
@@ -131,10 +148,17 @@ app.post('/view', async (req, res) => {
 
     const articleId = req.body.articleId
     const article = await viewArticle(articleId)
-    res.json({
-        success: true,
-        article
-    })
+    if (article) {
+        res.json({
+            success: true,
+            article
+        })
+    }
+    else {
+        res.json({
+            success: false
+        })
+    }
 })
 
 async function addComment(articleId: string, comment: Comment) {
@@ -161,8 +185,87 @@ app.post('/comment', async (req, res) => {
     comment.writer.accessToken = ''
     comment.replies = []
     const article = await addComment(articleId, comment)
-    res.json({
-        success: true,
-        article
+    if (article) {
+        res.json({
+            success: true,
+            article
+        })
+    }
+    else {
+        res.json({
+            success: false
+        })
+    }
+})
+
+async function addLike(articleId: string, userId: string) {
+    const articles = clientDB.db('data').collection<Article>('articles')
+    const article = articles.findOneAndUpdate({
+        _id: new ObjectId(articleId)
+    }, {
+        $push: {
+            likes: userId
+        }
     })
+    return await article as Article
+}
+
+app.post('/like', async (req, res) => {
+    const user = req.body.user as User
+    if (!isValidUser(user)) {
+        res.status(401)
+        return
+    }
+
+    const articleId: string = req.body.articleId
+    const userId = user.id
+    const article = await addLike(articleId, userId)
+    if (article) {
+        res.json({
+            success: true,
+            article
+        })
+    }
+    else {
+        res.json({
+            success: false
+        })
+    }
+})
+
+async function addReply(articleId: string, commentIndex: Number, reply: Reply) {
+    const articles = clientDB.db('data').collection<Article>('articles')
+    const article = articles.findOneAndUpdate({
+        _id: new ObjectId(articleId)
+    }, {
+        $push: {
+            [`comments.${commentIndex}.replies`]: reply
+        }
+    })
+    return await article as Article
+}
+
+app.post('/reply', async (req, res) => {
+    const user = req.body.user as User
+    if (!isValidUser(user)) {
+        res.status(401)
+        return
+    }
+
+    const articleId: string = req.body.articleId
+    const commentId = req.body.comment.id
+    const reply: Reply = req.body.reply
+    reply.writer.accessToken = ''
+    const article = await addReply(articleId, commentId, reply)
+    if (article) {
+        res.json({
+            success: true,
+            article
+        })
+    }
+    else {
+        res.json({
+            success: false
+        })
+    }
 })
