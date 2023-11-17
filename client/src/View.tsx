@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom"
 import { Article, Comment, Property, Reply } from "../../interface"
 import { useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faArrowUp, faCommentDots } from "@fortawesome/free-solid-svg-icons"
+import { faArrowUp, faCommentDots, faHeart } from "@fortawesome/free-solid-svg-icons"
 import './View.css'
 
 function View(props: Property) {
@@ -134,8 +134,12 @@ function View(props: Property) {
         <>
             <div id="title">{article.title}</div>
             <div id="content">{article.content}</div>
-            개추: {article.likes.length}
-            <button id="like" onClick={reqLike}>개추하기</button>
+            <div id="like-amount">
+                <button id="like" onClick={reqLike}>
+                    <FontAwesomeIcon icon={faHeart} size="lg" />
+                </button>
+                {article.likes.length}
+            </div>
             <div id="comment-input-wrapper">
                 <div id="comment-title">
                     <FontAwesomeIcon icon={faCommentDots} />
@@ -159,7 +163,7 @@ function View(props: Property) {
                             {
                                 comment.replies.map(reply => (
                                     <div className="reply" onClick={() => setReplyCommentIndex(commentIndex)}>
-                                        ㄴ{reply.writer.name}: {reply.content}
+                                        ㄴ {reply.writer.name}: {reply.content}
                                     </div>
                                 ))
                             }
@@ -173,8 +177,8 @@ function View(props: Property) {
                     setReplyContent('')
                 }} style={{display: (replyCommentIndex === -1 ? "none" : "block")}}>
                     <textarea className="write-reply" value={replyContent}
-                    onChange={e => setReplyContent(e.target.value)}></textarea>
-                    <button id="post-reply" onClick={() => reqReply()}>답글 달기</button>
+                    onChange={e => setReplyContent(e.target.value)} />
+                    <button id="post-reply" onClick={reqReply}>답글 달기</button>
                 </div>
             </div>
         </>
