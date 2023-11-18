@@ -31,10 +31,17 @@ ul {
     text-align: left;
     min-height: 30px;
     padding: 10px 15px;
+    border-top: 1px solid #dddfe0;
     border-bottom: 1px solid #dddfe0;
     word-break: break-all;
     display: flex;
     align-items: center;
+}
+
+.comment:hover{
+    background-color: #dadfe3;
+    box-shadow: #dadfe366 0px 4px 8px;
+    cursor: pointer;
 }
 
 #write-comment {
@@ -73,4 +80,24 @@ ul {
     gap: 5px;
     border-bottom: 1px solid #dddfe0;
     padding: 10px;
+}
+
+#reply-form{
+    position:fixed;
+    width: 100%;
+    bottom: 5px;
+}
+
+.reply{
+    padding-left: 30px;
+}
+
+.write-reply{
+    flex-grow: 1;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+#post-reply{
+    margin-right: 10px;
 }

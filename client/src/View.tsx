@@ -157,12 +157,24 @@ function View(props: Property) {
                     article.comments.map((comment: Comment, commentIndex) => {
                         return (
                             <>
-                            <div className="comment" onClick={() => setReplyCommentIndex(commentIndex)}>
+                            <div className="comment" onClick={() => {
+                                if (replyCommentIndex === commentIndex) {
+                                    setReplyCommentIndex(-1)
+                                    setReplyContent('')
+                                }
+                                else setReplyCommentIndex(commentIndex)
+                            }}>
                                 {comment.writer.name}: {comment.content}
                             </div>
                             {
                                 comment.replies.map(reply => (
-                                    <div className="reply" onClick={() => setReplyCommentIndex(commentIndex)}>
+                                    <div className="reply" onClick={() => {
+                                        if (replyCommentIndex === commentIndex) {
+                                            setReplyCommentIndex(-1)
+                                            setReplyContent('')
+                                        }
+                                        else setReplyCommentIndex(commentIndex)
+                                    }}>
                                         ㄴ {reply.writer.name}: {reply.content}
                                     </div>
                                 ))
@@ -171,13 +183,9 @@ function View(props: Property) {
                         )
                     })
                 }
-                <div id="reply-form" onBlur={(e) => {
-                    if (e.relatedTarget !== null) return
-                    setReplyCommentIndex(-1)
-                    setReplyContent('')
-                }} style={{display: (replyCommentIndex === -1 ? "none" : "block")}}>
+                <div id="reply-form" style={{display: (replyCommentIndex === -1 ? "none" : "flex")}}>
                     <textarea className="write-reply" value={replyContent}
-                    onChange={e => setReplyContent(e.target.value)} />
+                    onChange={e => setReplyContent(e.target.value)} autoFocus />
                     <button id="post-reply" onClick={reqReply}>답글 달기</button>
                 </div>
             </div>
