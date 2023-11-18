@@ -71,16 +71,16 @@ function View(props: Property) {
         <>
             <div id="title">{title}</div>
             <div id="content">{content}</div>
+            <div id="comment-input-container">
+                <input id="write-comment" value={commentContent} onChange={e => setCommentContent(e.target.value)}/>
+                <button id="post-comment" onClick={reqComment}>comment</button>
+            </div>
             <div id="comment-container">
                 {
                     comments.map(comment => (
                         <div className="comment">{comment.writer.name}: {comment.content}</div>
                     ))
                 }
-            </div>
-            <div id="comment-input-container">
-                <input id="write-comment" value={commentContent} onChange={e => setCommentContent(e.target.value)}/>
-                <button id="post-comment" onClick={reqComment}>comment</button>
             </div>
         </>
     )
