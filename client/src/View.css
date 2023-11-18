@@ -1,11 +1,12 @@
 #title {
-    font-size: 60px;
-    color: black;
+    padding: 10px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 30px;
 }
 
 #content {
-    font-size: 30px;
-    color: black;
+    padding: 20px 15px;
 }
 
 #comment-container {
@@ -15,9 +16,11 @@
 
 #comment-input-container {
     display: flex;
+    gap: 20px;
+    align-items: center;
 }
 
-ul{
+ul {
     overflow-y:scroll;
     margin: 0;
     padding: 0;
@@ -25,11 +28,49 @@ ul{
 }
 
 .comment {
-    width: 100%;
     text-align: left;
-    max-width: 100%;
-    padding: 0 10px 0 10px;
+    min-height: 30px;
+    padding: 10px 15px;
+    border-bottom: 1px solid #dddfe0;
+    word-break: break-all;
     display: flex;
-    flex-wrap: wrap;
-    word-wrap: break-word;
+    align-items: center;
+}
+
+#write-comment {
+    flex-grow: 1;
+    height: 60px;
+}
+
+#post-comment {
+    width: 50px;
+    height: 50px;
+}
+
+#comment-title {
+    display: flex;
+    gap: 5px;
+    height: 30px;
+    align-items: center;
+    padding: 5px 0;
+    line-height: 16px;
+}
+
+#comment-input-wrapper {
+    padding: 5px 15px 15px;
+    border-bottom: 1px solid #dddfe0;
+}
+
+#like {
+    width: 50px;
+    height: 50px;
+}
+
+#like-amount {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    border-bottom: 1px solid #dddfe0;
+    padding: 10px;
 }
