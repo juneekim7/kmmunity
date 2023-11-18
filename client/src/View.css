@@ -1,11 +1,11 @@
-#title {
+#view-title {
     padding: 10px;
     text-align: center;
     font-weight: 500;
     font-size: 30px;
 }
 
-#content {
+#view-content {
     padding: 20px 15px;
 }
 

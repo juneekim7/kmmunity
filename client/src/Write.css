@@ -1,8 +1,33 @@
 #title {
     height: 40px;
+    width: 25%;
     font-size: 30px;
+    margin: 10px;
+    margin-right: auto;
+    margin-left: 7.5%;
 }
 
 #content {
     resize: none;
+    width: 85%;
+    height: 80%;
+}
+
+#container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+#post{
+    width: 100px;
+    height: 40px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: auto;
+    margin-right: 7.5%;
 }

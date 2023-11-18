@@ -132,8 +132,8 @@ function View(props: Property) {
 
     return (
         <>
-            <div id="title">{article.title}</div>
-            <div id="content">{article.content}</div>
+            <div id="view-title">{article.title}</div>
+            <div id="view-content">{article.content}</div>
             <div id="like-amount">
                 <button id="like" onClick={reqLike}>
                     <FontAwesomeIcon icon={faHeart} size="lg" />

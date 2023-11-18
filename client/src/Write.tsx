@@ -40,9 +40,11 @@ function Write(props: Property) {
 
     return (
         <>
-            <input id="title" value={title} placeholder="title" onChange={(e) => setTitle(e.target.value)}/>
-            <textarea id="content" onChange={(e) => setContent(e.target.value)}>{content}</textarea>
-            <button onClick={reqWrite}>post</button>
+            <div id="container">
+                <input id="title" value={title} placeholder="제목" onChange={(e) => setTitle(e.target.value)}/>
+                <textarea id="content" onChange={(e) => setContent(e.target.value)}>{content}</textarea>
+                <button id="post" onClick={reqWrite}>Post</button>
+            </div>
         </>
     )
 }
