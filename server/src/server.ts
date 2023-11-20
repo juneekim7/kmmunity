@@ -54,6 +54,7 @@ app.post('/google_auth', async (req, res) => {
         const accessToken = req.body.accessToken
         console.log(accessToken)
         const user = await getUser(accessToken)
+        user.name = 'ㅇㅇ'
 
         validToken[user.id] = accessToken
 
