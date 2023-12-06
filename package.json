@@ -2,7 +2,7 @@
     "name": "kmmunity",
     "description": "community for KSA",
     "scripts": {
-        "dev": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server"
+        "dev": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server\""
     },
     "repository": {
         "type": "git",
